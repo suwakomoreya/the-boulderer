@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+        "label": "build",
+        "type": "process",
+        "command": "g++",
+        "args": [
+            "${workspaceFolder}/src/main.cpp",
+            "${workspaceFolder}/src/game.cpp",
+            "-o", "${workspaceFolder}/game.exe",
+            "-std=c++17",
+            "-Wall",
+            "-lraylib", "-lopengl32", "-lgdi32", "-lwinmm"
+        ],
+        "problemMatcher": ["$gcc"]
+        },
+        {
+        "label": "build and run",
+        "type": "process",
+        "command": "${workspaceFolder}/game.exe",
+        "options": { "cwd": "${workspaceFolder}" },
+        "dependsOn": "build",
+        "problemMatcher": [],
+        "group": { "kind": "build", "isDefault": true }
+        }
+    ]
+}
