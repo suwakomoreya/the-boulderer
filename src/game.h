@@ -1,3 +1,4 @@
+#pragma once
 #include <bits/stdc++.h>
 #include "raylib.h"
 typedef struct{
@@ -6,3 +7,10 @@ typedef struct{
     float speed;
     Color color;
 } player;
+typedef struct{
+    Vector2 pos;
+    int key;
+    int dropamt;
+} stones;
+const int stonecount = 75;
+stones stone[stonecount];
