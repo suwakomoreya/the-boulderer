@@ -1,15 +1,13 @@
 #include <bits/stdc++.h>
 #include <raylib.h>
 #include "ui.h"
-
-const int screenw =1920;
-const int screenh = 1080;
-
+#include "game.h"
 
 int main(){
     InitWindow(screenw,screenh,"Boulderer");
     SetTargetFPS(60);
     SetExitKey(KEY_NULL);
+    //Start menu
     enum class Screen {
         Menu,
         P1,
@@ -25,7 +23,17 @@ int main(){
     const int count =3;
     int selected =0;
     bool running = true;
+    player player{
+        .pos = {0,0},
+        .size = {0,0},
+        .speed = 60,
+        .color = RED,
+    };
 
+
+
+
+    // startmenu
     while(running && !WindowShouldClose()){
         //update
         if(current == Screen::Menu){
@@ -48,24 +56,32 @@ int main(){
                 }
             }
         }
+        if(current == Screen::P1){
+            
+        }
         BeginDrawing();
         ClearBackground(BLACK);
+        drawbg();
+        //select choice
         if(current == Screen::Menu){
-            DrawText("The Boulderer", 250, 100, 40,WHITE);
+            DrawText("The Boulderer", 250, 100, 80,WHITE);
             for(int i =0;i<count;i++){
                 Color c =(i ==selected) ?YELLOW : GRAY;
-                DrawText(items[i],350,250+i*50,30,c);
+                DrawText(items[i],350,250+i*70,50,c);
                 if(i==selected){
-                    DrawText(">",320,250 +i *50,30, YELLOW);
+                    DrawText(">",320,250 +i *70,50, YELLOW);
                 }
 
             }
 
         }  
         else if(current == Screen::P1){
+            current = Screen::P1;
             DrawText("P1",200,280,25,WHITE);
+            
         }
         else if(current == Screen::P2){
+            current = Screen::P2;
             DrawText("P2",200,280,25,WHITE);
         }
         EndDrawing();
