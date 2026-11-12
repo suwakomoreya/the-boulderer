@@ -45,17 +45,15 @@ void drawbg(){
 void genstones(stones stone[], float left, float right){
     float x = (left+right)/2;
     float y = 900;
-    for(int b=0;b<3;b++){
+
     for(int i =0;i<stonecount;i++){
         stone[i].pos = {x,y};
         stone[i].key = GetRandomValue(0,3);
-        y -= GetRandomValue(150,300);
+        y -= GetRandomValue(80,150);
         x += GetRandomValue(-120,120);
         if(x<left+60) x = left + 60;
         if(x>right -60) x =right-60;
-        
 
-        }
     }
     //draw
     

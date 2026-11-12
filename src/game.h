@@ -12,5 +12,5 @@ typedef struct{
     int key;
     int dropamt;
 } stones;
-const int stonecount = 40;
+const int stonecount = 75;
 stones stone[stonecount];
