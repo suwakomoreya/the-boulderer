@@ -1,0 +1,5 @@
+ignore, this is so i can compile on my macbook
+g++ -std=c++17 $(find . -name "*.cpp") -I. -I$HOME/raylib/src -L$HOME/raylib/src -lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -o theboulderer && ./theboulderer
+
+win
+g++ src/main.cpp src/game.pp -o game.exe -std=c++17 -Wall -lraylib -lopengl32 -lgdi32 -lwinmm && game.exe
