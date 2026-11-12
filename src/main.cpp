@@ -7,6 +7,8 @@ int main(){
     InitWindow(screenw,screenh,"Boulderer");
     SetTargetFPS(60);
     SetExitKey(KEY_NULL);
+    //init
+    
     //Start menu
     enum class Screen {
         Menu,
@@ -30,11 +32,14 @@ int main(){
         .color = RED,
     };
 
-
+    stones p1stones[stonecount];
+    stones p2stones[stonecount];
 
 
     // startmenu
+    //loadbg();
     while(running && !WindowShouldClose()){
+        // drawbg();
         //update
         if(current == Screen::Menu){
             if(IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)){
@@ -47,9 +52,12 @@ int main(){
             if(IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)){
                 if(selected == 0){
                     current = Screen::P1;
+                    genstones(p1stones,0,500);
                 }
                 if(selected==1){
                     current = Screen::P2;
+                    genstones(p1stones,0,500);
+                    genstones(p2stones,500,100);     
                 }
                 if(selected ==2){
                     running=false;
@@ -61,7 +69,7 @@ int main(){
         }
         BeginDrawing();
         ClearBackground(BLACK);
-        drawbg();
+        
         //select choice
         if(current == Screen::Menu){
             DrawText("The Boulderer", 250, 100, 80,WHITE);
@@ -78,11 +86,13 @@ int main(){
         else if(current == Screen::P1){
             current = Screen::P1;
             DrawText("P1",200,280,25,WHITE);
-            
+            drawstones(p1stones);
         }
         else if(current == Screen::P2){
             current = Screen::P2;
             DrawText("P2",200,280,25,WHITE);
+            drawstones(p1stones);
+            drawstones(p2stones);
         }
         EndDrawing();
     }
