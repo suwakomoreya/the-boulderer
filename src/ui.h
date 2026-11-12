@@ -34,4 +34,4 @@ void drawplayer1(){
     int hitboxx;
     int hitboxy;
     
-}s
+}
