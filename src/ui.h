@@ -13,6 +13,7 @@ const int lvlcount = 3;
 Texture2D levels[lvlcount];
 Texture2D climblvl[lvlcount];
 int clmetermax = 3;
+//bg generation
 void loadbg() {
     for(int i=0; i<lvlcount; i++){
         levels[i] = LoadTexture(TextFormat("assets/level/bg%d.png",i));
@@ -40,7 +41,7 @@ void drawbg(){
         DrawTexture(levels[i],0,bottom,WHITE);
     }
 }
-
+// stone generation
 // makestones(p1stones, 0,500) (500,1000 for p2)
 void genstones(stones stone[], float left, float right){
     float x = (left+right)/2;
@@ -55,7 +56,6 @@ void genstones(stones stone[], float left, float right){
         if(x>right -60) x =right-60;
 
     }
-    //draw
     
 }
 void drawstones(stones stone[]){
@@ -65,7 +65,21 @@ void drawstones(stones stone[]){
 }
 stones p1stones[stonecount];
 stones p2stones[stonecount];
+
+
 //creating ui
+void drawp1gp(){
+    DrawText("Player 1",200,100,80,RED);
+    DrawText("Height",200,200,80,BLACK);
+
+}
+void drawp2gp(){
+    drawp1gp();
+    DrawText("Player 2", screenw-200,100,80,BLUE);
+    DrawText("Height",screenw-200,200,80,BLACK);
+
+}
+
 void drawplayer1(){
     Texture2D player1;
     int hitboxx;

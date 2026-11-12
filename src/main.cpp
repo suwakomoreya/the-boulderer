@@ -65,11 +65,12 @@ int main(){
             }
         }
         if(current == Screen::P1){
-            
+            if(IsKeyPressed(KEY_ESCAPE)){
+                current == Screen::Menu;
+            }
         }
         BeginDrawing();
         ClearBackground(BLACK);
-        
         //select choice
         if(current == Screen::Menu){
             DrawText("The Boulderer", 250, 100, 80,WHITE);
