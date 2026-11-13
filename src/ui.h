@@ -79,13 +79,6 @@ void drawp2gp(){
     DrawText("Height",screenw-350,200,40,BLUE);
 
 }
-
-void drawplayer1(){
-    Texture2D player1;
-    int hitboxx;
-    int hitboxy;
-    
-}
 //create player;
 player createplayer(float x,float y,Color color){
     player p;
