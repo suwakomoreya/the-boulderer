@@ -86,14 +86,16 @@ int main(){
         }  
         else if(current == Screen::P1){
             current = Screen::P1;
-            DrawText("P1",200,280,25,WHITE);
             drawstones(p1stones);
+            drawp1gp();
+            
         }
         else if(current == Screen::P2){
             current = Screen::P2;
-            DrawText("P2",200,280,25,WHITE);
             drawstones(p1stones);
             drawstones(p2stones);
+            drawp1gp();
+            drawp2gp();
         }
         EndDrawing();
     }

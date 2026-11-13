@@ -69,14 +69,14 @@ stones p2stones[stonecount];
 
 //creating ui
 void drawp1gp(){
-    DrawText("Player 1",200,100,80,RED);
-    DrawText("Height",200,200,80,BLACK);
+    DrawText("Player 1",200,100,40,RED);
+    DrawText("Height",250,200,40,RED);
 
 }
 void drawp2gp(){
     drawp1gp();
-    DrawText("Player 2", screenw-200,100,80,BLUE);
-    DrawText("Height",screenw-200,200,80,BLACK);
+    DrawText("Player 2", screenw-400,100,40,BLUE);
+    DrawText("Height",screenw-350,200,40,BLUE);
 
 }
 
@@ -86,3 +86,7 @@ void drawplayer1(){
     int hitboxy;
     
 }
+//create player;
+void createplayer(player player){
+    player.
+};
