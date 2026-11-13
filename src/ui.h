@@ -65,7 +65,7 @@ void drawstones(stones stone[]){
 }
 stones p1stones[stonecount];
 stones p2stones[stonecount];
-
+// uistone generation (not actual interactable stones)
 
 //creating ui
 void drawp1gp(){
@@ -87,6 +87,19 @@ void drawplayer1(){
     
 }
 //create player;
-void createplayer(player player){
-    player.
-};
+player createplayer(float x,float y,Color color){
+    player p;
+    p.pos = {x,y};
+    p.size = {50,50};
+    p.speed = 60;
+    p.color = color;
+    return p;
+}
+void drawplayer(const player& p){
+    DrawRectangleV(p.pos,p.size,p.color);
+}
+// camera understanding
+void splitscreen(){
+    RenderTexture2D lefttex = LoadRenderTexture(screenw / 2, screenh);
+    RenderTexture2D righttex = LoadRenderTexture(screenw /2, screenh);
+}

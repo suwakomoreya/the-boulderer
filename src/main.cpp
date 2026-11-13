@@ -56,8 +56,8 @@ int main(){
                 }
                 if(selected==1){
                     current = Screen::P2;
-                    genstones(p1stones,0,500);
-                    genstones(p2stones,500,1000);     
+                    genstones(p1stones,100,500);
+                    genstones(p2stones,750,1500);     
                 }
                 if(selected ==2){
                     running=false;
