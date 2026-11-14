@@ -91,15 +91,22 @@ player createplayer(float x,float y,Color color){
 void drawplayer(const player& p){
     DrawRectangleV(p.pos,p.size,p.color);
 }
+RenderTexture2D lefttex = LoadRenderTexture(screenw / 2, screenh);
+RenderTexture2D righttex = LoadRenderTexture(screenw /2, screenh);
+Camera2D cammain ={0}, camleft ={0}, camright ={0};
 // camera understanding
 void splitscreen(){
-    RenderTexture2D lefttex = LoadRenderTexture(screenw / 2, screenh);
-    RenderTexture2D righttex = LoadRenderTexture(screenw /2, screenh);
-    Camera2D cammain = {0}; cammain.zoom = 1.0f;
-    Camera2D camleft = {0}; camleft.zoom = 1.0f;
-    Camera2D camright = {0}; camright.zoom = 1.0f;
+    
+    cammain.zoom = 1.0f;
+    camleft.zoom = 1.0f;
+    camright.zoom = 1.0f;
 
     cammain.offset = {screenw/2.0f, screenh/2.0f};
     camleft.offset = {screenw/4.0f, screenh/2.0f};
     camright.offset= {screenw/4.0f, screenh/2.0f};
+}
+void drawsplitscreen(player& p1, player& p2, stones p1stones[], stones p2stones[]){
+    BeginTextureMode(lefttex);
+    ClearBackground(BLACK);
+    drawstones(p1stones);
 }

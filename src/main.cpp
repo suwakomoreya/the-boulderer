@@ -29,10 +29,13 @@ int main(){
 
     stones p1stones[stonecount];
     stones p2stones[stonecount];
+    player p1 = createplayer(250,900,RED);
+    player p2 = createplayer(1000,900,BLUE);
 
 
     // startmenu
-    // loadbg();
+    loadbg();
+    splitscreen();
     while(running && !WindowShouldClose()){
         drawbg();
         //update
@@ -48,20 +51,23 @@ int main(){
                 if(selected == 0){
                     current = Screen::P1;
                     genstones(p1stones,0,500);
+                  
                 }
                 if(selected==1){
                     current = Screen::P2;
+                    
                     genstones(p1stones,100,500);
                     genstones(p2stones,750,1500);     
+                    
                 }
                 if(selected ==2){
                     running=false;
                 }
             }
         }
-        if(current == Screen::P1){
+        if(current == Screen::P1 || current == Screen::P2){
             if(IsKeyPressed(KEY_ESCAPE)){
-                current == Screen::Menu;
+                current = Screen::Menu;
             }
         }
         BeginDrawing();
@@ -83,27 +89,33 @@ int main(){
             current = Screen::P1;
             drawstones(p1stones);
             drawp1gp();
-            player p1 = createplayer(250,900,RED);
+            
             
             drawplayer(p1);
         }
         else if(current == Screen::P2){
             current = Screen::P2;
-            splitscreen();
+            
 
             drawstones(p1stones);
             drawstones(p2stones);
-            drawp1gp();
+            
             drawp2gp();
 
-            player p1 = createplayer(250,900,RED);
+           
             drawplayer(p1);
 
-            player p2 = createplayer(750,900,BLUE);
+            
             drawplayer(p2);
             
         }
         EndDrawing();
+    }
+    UnloadRenderTexture(lefttex);
+    UnloadRenderTexture(righttex);
+    for(int i=0;i<lvlcount;i++){
+        UnloadTexture(levels[i]);
+        UnloadTexture(climblvl[i]);
     }
     CloseWindow();
 }
