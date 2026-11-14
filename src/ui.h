@@ -108,7 +108,7 @@ void splitscreen(){
     camright.offset= {screenw/4.0f, screenh/2.0f};
 }
 void drawsplitscreen(player& p1, player& p2, stones p1stones[], stones p2stones[]){
-    camleft.target = {p1.pos.x + p1.size.x/2,p1.pos.y +p1.size.y/2};
+    camleft.target = {screenw/4.0f,p1.pos.y +p1.size.y/2};
     BeginTextureMode(lefftex);
     ClearBackground(BLACK);
     BeginMode2D(camleft);
@@ -119,7 +119,7 @@ void drawsplitscreen(player& p1, player& p2, stones p1stones[], stones p2stones[
     EndTextureMode();
     
     //p2
-    camright.target = {p2.pos.x + p2.size.x/2, p2.pos.y + p2.size.y/2};
+    camright.target = {screenw*3/4.0f, p2.pos.y + p2.size.y/2};
     BeginTextureMode(righttex);
     ClearBackground(BLACK);
     BeginMode2D(camright);

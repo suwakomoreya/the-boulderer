@@ -125,9 +125,20 @@ int main(){
         }  
         else if(current == Screen::P1){
             current = Screen::P1;
+            
+
+            Camera2D p1cammain = {0};
+            p1cammain.zoom = 1.0f;
+            p1cammain.target = {screenw/2.0f,p1.pos.y +p1.size.y/2};
+            p1cammain.offset = {screenw/2.0f,screenh/2.0f};
+            
+            ClearBackground(BLACK);
+            BeginMode2D(p1cammain);
             drawstones(p1stones);
             drawp1gp();
             drawplayer(p1);
+            EndMode2D();
+            EndTextureMode();
         }
         else if(current == Screen::P2){
             current = Screen::P2;
