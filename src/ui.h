@@ -58,6 +58,7 @@ void genstones(stones stone[], float left, float right){
     }
     
 }
+
 void drawstones(stones stone[]){
     for(int i=0;i<stonecount;i++){
         DrawCircleV(stone[i].pos,20,GRAY);
@@ -157,3 +158,10 @@ void displaysplitscreen(){
     DrawRectangle(screenw/2 -2,0,4,screenh,WHITE);
 }
 
+// gameclimb
+void rockclimb(player&p, stones s[]){
+    p.pos = {(s[p.rock].pos.x)-15,s[p.rock].pos.y-_PC_53sw};
+    if(IsKeyPressed(KEY_W)){
+        p.rock++;
+    }
+}

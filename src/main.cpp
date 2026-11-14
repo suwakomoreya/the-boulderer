@@ -137,12 +137,13 @@ int main(){
             drawstones(p1stones);
             drawplayer(p1);
             EndMode2D();
+            rockclimb(p1,p1stones);
             drawp1gp();
         }
         else if(current == Screen::P2){
             current = Screen::P2;
             displaysplitscreen();
-
+            
             drawp1gp();
             drawp2gp();
 
