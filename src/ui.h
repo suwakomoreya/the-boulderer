@@ -96,19 +96,38 @@ void drawplayer(const player& p){
 // camera understanding
 RenderTexture2D lefftex, righttex;
 Camera2D cammain ={0}, camleft ={0}, camright ={0};
+//lowkey just smoother camera transitions
+void followplayer(Camera2D& cam, const player&p, float lanecenterX){
+    const float trigger = 400; 
+    const float smooth = 3.0f; // higher values will snap more
+    float playerY = p.pos.y +p.size.y/2;
+
+    float desired = playerY + (screenh/2.0f-trigger);
+    if(desired> screenh/2.0f){
+        desired = screenh/2.0f;
+    }
+    cam.target.y += (desired-cam.target.y)* smooth *GetFrameTime();
+    cam.target.x = lanecenterX;
+
+}
+
+
 void splitscreen(){
     lefftex = LoadRenderTexture(screenw/2,screenh);
     righttex = LoadRenderTexture(screenw/2, screenh);
     cammain.zoom = 1.0f;
     camleft.zoom = 1.0f;
     camright.zoom = 1.0f;
-
+    camleft.target = {screenw/4.0f, screenh/2.0f};
+    camright.target = {screenw*3/4.0f, screenh/2.0f};
+    cammain.target = {screenw/2.0f, screenh/2.0f};
     cammain.offset = {screenw/2.0f, screenh/2.0f};
     camleft.offset = {screenw/4.0f, screenh/2.0f};
     camright.offset= {screenw/4.0f, screenh/2.0f};
 }
 void drawsplitscreen(player& p1, player& p2, stones p1stones[], stones p2stones[]){
-    camleft.target = {screenw/4.0f,p1.pos.y +p1.size.y/2};
+    followplayer(camleft, p1,screenw/4.0f);
+
     BeginTextureMode(lefftex);
     ClearBackground(BLACK);
     BeginMode2D(camleft);
@@ -119,7 +138,8 @@ void drawsplitscreen(player& p1, player& p2, stones p1stones[], stones p2stones[
     EndTextureMode();
     
     //p2
-    camright.target = {screenw*3/4.0f, p2.pos.y + p2.size.y/2};
+    followplayer(camright, p2,screenw*3/4.0f);
+
     BeginTextureMode(righttex);
     ClearBackground(BLACK);
     BeginMode2D(camright);
@@ -136,3 +156,4 @@ void displaysplitscreen(){
     DrawTextureRec(righttex.texture, src, {screenw/2.0f,0},WHITE);
     DrawRectangle(screenw/2 -2,0,4,screenh,WHITE);
 }
+

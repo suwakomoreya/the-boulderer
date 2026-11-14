@@ -50,7 +50,7 @@ int main(){
             if(IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)){
                 if(selected == 0){ // one player bro bro bro 
                     current = Screen::P1;
-                    genstones(p1stones,0,500);
+                    genstones(p1stones,100,1000);
                   
                 }
                 if(selected==1){ //SPLITSCREEN p2
@@ -127,18 +127,17 @@ int main(){
             current = Screen::P1;
             
 
-            Camera2D p1cammain = {0};
-            p1cammain.zoom = 1.0f;
-            p1cammain.target = {screenw/2.0f,p1.pos.y +p1.size.y/2};
-            p1cammain.offset = {screenw/2.0f,screenh/2.0f};
+            
+            //cammain.zoom = 1.0f;
+            followplayer(cammain,p1,screenw/2.0f);
+            //cammain.offset = {screenw/2.0f,screenh/2.0f};
             
             ClearBackground(BLACK);
-            BeginMode2D(p1cammain);
+            BeginMode2D(cammain);
             drawstones(p1stones);
-            drawp1gp();
             drawplayer(p1);
             EndMode2D();
-            EndTextureMode();
+            drawp1gp();
         }
         else if(current == Screen::P2){
             current = Screen::P2;
