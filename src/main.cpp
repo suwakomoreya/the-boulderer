@@ -31,7 +31,7 @@ int main(){
     stones p2stones[stonecount];
     player p1 = createplayer(250,900,RED);
     player p2 = createplayer(1000,900,BLUE);
-
+    
 
     // startmenu
     loadbg();
@@ -48,12 +48,12 @@ int main(){
                 selected = (selected-1+count)% count;
             }
             if(IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)){
-                if(selected == 0){
+                if(selected == 0){ // one player bro bro bro 
                     current = Screen::P1;
                     genstones(p1stones,0,500);
                   
                 }
-                if(selected==1){
+                if(selected==1){ //SPLITSCREEN p2
                     current = Screen::P2;
                     
                     genstones(p1stones,100,500);
@@ -70,6 +70,44 @@ int main(){
                 current = Screen::Menu;
             }
         }
+        if(current == Screen::P2){
+            drawsplitscreen(p1,p2,p1stones,p2stones);
+        }
+
+        // temporary movement (splitscreen test)
+        if(current== Screen::P1 || current == Screen::P2){
+            if(IsKeyPressed(KEY_W)){
+                p1.pos.y-=40;
+            }
+            if(IsKeyPressed(KEY_A)){
+                p1.pos.x-=40;
+
+            }
+            if(IsKeyPressed(KEY_S)){
+                p1.pos.y+=40;
+            }
+            if(IsKeyPressed(KEY_D)){
+                p1.pos.x+=40;
+            }
+            //p2 movement
+            if(IsKeyPressed(KEY_UP)){
+                p2.pos.y-=40;
+
+            }
+            if(IsKeyPressed(KEY_LEFT)){
+                p2.pos.x-=40;
+
+            }
+            if(IsKeyPressed(KEY_DOWN)){
+                p2.pos.y+=40;
+            }
+            if(IsKeyPressed(KEY_RIGHT)){
+                p2.pos.x+=40;
+            }
+
+        }
+
+        
         BeginDrawing();
         ClearBackground(BLACK);
         //select choice
@@ -89,29 +127,22 @@ int main(){
             current = Screen::P1;
             drawstones(p1stones);
             drawp1gp();
-            
-            
             drawplayer(p1);
         }
         else if(current == Screen::P2){
             current = Screen::P2;
-            
+            displaysplitscreen();
 
-            drawstones(p1stones);
-            drawstones(p2stones);
-            
+            drawp1gp();
             drawp2gp();
 
            
-            drawplayer(p1);
-
             
-            drawplayer(p2);
             
         }
         EndDrawing();
     }
-    UnloadRenderTexture(lefttex);
+    UnloadRenderTexture(lefftex);
     UnloadRenderTexture(righttex);
     for(int i=0;i<lvlcount;i++){
         UnloadTexture(levels[i]);

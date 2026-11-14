@@ -91,12 +91,14 @@ player createplayer(float x,float y,Color color){
 void drawplayer(const player& p){
     DrawRectangleV(p.pos,p.size,p.color);
 }
-RenderTexture2D lefttex = LoadRenderTexture(screenw / 2, screenh);
-RenderTexture2D righttex = LoadRenderTexture(screenw /2, screenh);
-Camera2D cammain ={0}, camleft ={0}, camright ={0};
+
+
 // camera understanding
+RenderTexture2D lefftex, righttex;
+Camera2D cammain ={0}, camleft ={0}, camright ={0};
 void splitscreen(){
-    
+    lefftex = LoadRenderTexture(screenw/2,screenh);
+    righttex = LoadRenderTexture(screenw/2, screenh);
     cammain.zoom = 1.0f;
     camleft.zoom = 1.0f;
     camright.zoom = 1.0f;
@@ -106,7 +108,31 @@ void splitscreen(){
     camright.offset= {screenw/4.0f, screenh/2.0f};
 }
 void drawsplitscreen(player& p1, player& p2, stones p1stones[], stones p2stones[]){
-    BeginTextureMode(lefttex);
+    camleft.target = {p1.pos.x + p1.size.x/2,p1.pos.y +p1.size.y/2};
+    BeginTextureMode(lefftex);
     ClearBackground(BLACK);
+    BeginMode2D(camleft);
+    drawbg();
     drawstones(p1stones);
+    drawplayer(p1);
+    EndMode2D();
+    EndTextureMode();
+    
+    //p2
+    camright.target = {p2.pos.x + p2.size.x/2, p2.pos.y + p2.size.y/2};
+    BeginTextureMode(righttex);
+    ClearBackground(BLACK);
+    BeginMode2D(camright);
+    drawbg();
+    drawstones(p2stones);
+    drawplayer(p2);
+    EndMode2D();
+    EndTextureMode();
+}
+
+void displaysplitscreen(){
+    Rectangle src = {0,0,(float)lefftex.texture.width, -(float)lefftex.texture.height};
+    DrawTextureRec(lefftex.texture, src, {0,0},WHITE);
+    DrawTextureRec(righttex.texture, src, {screenw/2.0f,0},WHITE);
+    DrawRectangle(screenw/2 -2,0,4,screenh,WHITE);
 }
