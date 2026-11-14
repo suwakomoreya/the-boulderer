@@ -25,21 +25,16 @@ int main(){
     const int count =3;
     int selected =0;
     bool running = true;
-    player player{
-        .pos = {0,0},
-        .size = {0,0},
-        .speed = 60,
-        .color = RED,
-    };
+   
 
     stones p1stones[stonecount];
     stones p2stones[stonecount];
 
 
     // startmenu
-    //loadbg();
+    // loadbg();
     while(running && !WindowShouldClose()){
-        // drawbg();
+        drawbg();
         //update
         if(current == Screen::Menu){
             if(IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)){
@@ -88,14 +83,25 @@ int main(){
             current = Screen::P1;
             drawstones(p1stones);
             drawp1gp();
+            player p1 = createplayer(250,900,RED);
             
+            drawplayer(p1);
         }
         else if(current == Screen::P2){
             current = Screen::P2;
+            splitscreen();
+
             drawstones(p1stones);
             drawstones(p2stones);
             drawp1gp();
             drawp2gp();
+
+            player p1 = createplayer(250,900,RED);
+            drawplayer(p1);
+
+            player p2 = createplayer(750,900,BLUE);
+            drawplayer(p2);
+            
         }
         EndDrawing();
     }
