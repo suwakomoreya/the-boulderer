@@ -69,12 +69,15 @@ int main(){
             if(IsKeyPressed(KEY_ESCAPE)){
                 current = Screen::Menu;
             }
+            
+
         }
         if(current == Screen::P2){
             drawsplitscreen(p1,p2,p1stones,p2stones);
         }
 
         // temporary movement (splitscreen test)
+        /*
         if(current== Screen::P1 || current == Screen::P2){
             if(IsKeyPressed(KEY_W)){
                 p1.pos.y-=40;
@@ -106,7 +109,7 @@ int main(){
             }
 
         }
-
+        */
         
         BeginDrawing();
         ClearBackground(BLACK);

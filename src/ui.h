@@ -180,14 +180,55 @@ void displaysplitscreen(){
 // gameclimb
 
 void rockclimb(player&p, stones s[]){
-    p.pos = {(s[p.rock].pos.x)-25,s[p.rock].pos.y-25};
-    if(p.rock != stonecount){
+    p.pos = {(s[(p.rock)+3].pos.x)-25,s[p.rock].pos.y-25};
+    if(p.rock != stonecount && p.rock >0){
+        if(IsKeyPressed(KEY_W)){
+                p.keypress = KEY_W;
+            }
+        if(IsKeyPressed(KEY_A)){
+                p.keypress = KEY_A;
+            }
+        if(IsKeyPressed(KEY_D)){
+                p.keypress = KEY_D;
+            }
+        if(IsKeyPressed(KEY_S)){
+                p.keypress = KEY_S;
+            }
+        if(p.keypress == s[(p.rock)+1].reqkey){
+                p.rock++;
+            }
+        if(KEY_A == s[(p.rock)+1].reqkey){
+                p.rock++;
+            }
+        if(KEY_S == s[(p.rock)+1].reqkey){
+                p.rock++;
+            }
+        if(KEY_D == s[(p.rock)+1].reqkey){
+                p.rock++;
+            }
+
+
+        /*
+        if(IsKeyPressed(KEY_W)){
+                p.keypress = KEY_W;
+            }
+        if(IsKeyPressed(KEY_A)){
+                p.keypress = KEY_A;
+            }
+        if(IsKeyPressed(KEY_D)){
+                p.keypress = KEY_D;
+            }
+        if(IsKeyPressed(KEY_S)){
+                p.keypress = KEY_S;
+            }
+        
         if(p.keypress == stone[p.rock+1].reqkey){ // remember that raylib keypresses are actually asci inputs
             p.rock++;
         }
         else{
             p.rock--;
         }
+        */
     }
     else{
         p.rock =0;
