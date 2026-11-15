@@ -106,6 +106,7 @@ player createplayer(float x,float y,Color color){
     p.size = {50,50};
     p.speed = 60;
     p.color = color;
+    p.rock = 0;
     return p;
 }
 void drawplayer(const player& p){
@@ -180,8 +181,43 @@ void displaysplitscreen(){
 // gameclimb
 
 void rockclimb(player&p, stones s[]){
-    p.pos = {(s[(p.rock)+3].pos.x)-25,s[p.rock].pos.y-25};
-    if(p.rock != stonecount && p.rock >0){
+    
+    if(p.rock<0){
+        p.rock =0;
+    }
+    /*
+    if(p.rock >stonecount -1){
+        p.rock = stonecount-1;
+    }*/
+    p.pos = {(s[(p.rock)+3].pos.x)-25,s[p.rock].pos.y-25}; 
+    /*if(p.rock >= stonecount-1){
+        return;
+    }*/
+
+    int pressed=0;
+    if(IsKeyPressed(KEY_W)){
+        pressed = 'W';
+    }
+    else if(IsKeyPressed(KEY_D)){
+        pressed = 'D';
+    }
+    else if(IsKeyPressed(KEY_A)){
+        pressed = 'A';
+    }
+    else if(IsKeyPressed(KEY_S)){
+        pressed = 'S';
+    }
+    if(pressed){
+        if(pressed == s[p.rock+1].reqkey){
+            p.rock++;
+        }
+        else if(p.rock >0){
+            p.rock--;
+        }
+    }
+    
+    /*
+    if(p.rock != stonecount ){
         if(IsKeyPressed(KEY_W)){
                 p.keypress = KEY_W;
             }
@@ -208,7 +244,7 @@ void rockclimb(player&p, stones s[]){
             }
 
 
-        /*
+        
         if(IsKeyPressed(KEY_W)){
                 p.keypress = KEY_W;
             }
@@ -229,7 +265,7 @@ void rockclimb(player&p, stones s[]){
             p.rock--;
         }
         */
-    }
+    
     else{
         p.rock =0;
     }
