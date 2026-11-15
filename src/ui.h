@@ -45,7 +45,7 @@ void drawbg(){
 // makestones(p1stones, 0,500) (500,1000 for p2)
 void genstones(stones stone[], float left, float right){
     float x = (left+right)/2;
-    float y = 900;
+    float y = 800;
 
     for(int i =0;i<stonecount;i++){
         stone[i].pos = {x,y};
@@ -182,7 +182,7 @@ void displaysplitscreen(){
 
 void rockclimb(player&p, stones s[]){
     
-    if(p.rock<0){
+    if(p.rock<0 || p.rock > stonecount){
         p.rock =0;
     }
     /*
@@ -193,7 +193,7 @@ void rockclimb(player&p, stones s[]){
     /*if(p.rock >= stonecount-1){
         return;
     }*/
-
+    
     int pressed=0;
     if(IsKeyPressed(KEY_W)){
         pressed = 'W';
@@ -266,7 +266,5 @@ void rockclimb(player&p, stones s[]){
         }
         */
     
-    else{
-        p.rock =0;
-    }
+    
 }
