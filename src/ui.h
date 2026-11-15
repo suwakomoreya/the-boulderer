@@ -59,24 +59,40 @@ void genstones(stones stone[], float left, float right){
     
 }
 
-void drawstones(stones stone[]){
+void drawstones(stones stone[], player& p){
     for(int i=0;i<stonecount;i++){
-        
-        switch(stone[i].key){
-            case 0:
-                stone[i].reqkey = 'W';
-                break;
-            case 1:
-                stone[i].reqkey = 'D';
-                break;
-            case 2:
-                stone[i].reqkey = 'S';
-                break;
-            case 3:
-                stone[i].reqkey = 'A';
-                break;
+        if(ColorToInt(p.color) == ColorToInt(RED)){
+            switch(stone[i].key){
+                case 0:
+                    stone[i].reqkey = 'W';
+                    break;
+                case 1:
+                    stone[i].reqkey = 'D';
+                    break;
+                case 2:
+                    stone[i].reqkey = 'S';
+                    break;
+                case 3:
+                    stone[i].reqkey = 'A';
+                    break;
+            }
         }
-        
+        else{
+            switch(stone[i].key){
+                case 0:
+                    stone[i].reqkey = 'I';
+                    break;
+                case 1: 
+                    stone[i].reqkey = 'J';
+                    break;
+                case 2:
+                    stone[i].reqkey = 'K';
+                    break;
+                case 3:
+                    stone[i].reqkey = 'L';
+                    break;
+            }
+        }
         // std::string akey = std::to_string(stone[i].key);
         DrawCircleV(stone[i].pos,20,GRAY);
         DrawText(TextFormat("%c", stone[i].reqkey),stone[i].pos.x - 5,stone[i].pos.y - 15,30,WHITE);
@@ -153,7 +169,7 @@ void drawsplitscreen(player& p1, player& p2, stones p1stones[], stones p2stones[
     ClearBackground(BLACK);
     BeginMode2D(camleft);
     drawbg();
-    drawstones(p1stones);
+    drawstones(p1stones, p1);
     drawplayer(p1);
     EndMode2D();
     EndTextureMode();
@@ -165,7 +181,7 @@ void drawsplitscreen(player& p1, player& p2, stones p1stones[], stones p2stones[
     ClearBackground(BLACK);
     BeginMode2D(camright);
     drawbg();
-    drawstones(p2stones);
+    drawstones(p2stones, p2);
     drawplayer(p2);
     EndMode2D();
     EndTextureMode();
@@ -179,92 +195,75 @@ void displaysplitscreen(){
 }
 
 // gameclimb
-
 void rockclimb(player&p, stones s[]){
     
-    if(p.rock<0 || p.rock > stonecount){
+    if(p.rock<0 || p.rock >= stonecount){
         p.rock =0;
     }
-    /*
-    if(p.rock >stonecount -1){
-        p.rock = stonecount-1;
-    }*/
-    p.pos = {(s[(p.rock)+3].pos.x)-25,s[p.rock].pos.y-25}; 
-    /*if(p.rock >= stonecount-1){
-        return;
-    }*/
+    Vector2 target = {s[p.rock].pos.x - 25, s[p.rock].pos.y-25};
+    float smooth = 7.0f;
+    p.pos.x += (target.x-p.pos.x) * smooth * GetFrameTime();
+    p.pos.y += (target.y - p.pos.y) * smooth * GetFrameTime();
+    // p.pos = {(s[(p.rock)].pos.x)-25,s[p.rock].pos.y-25}; 
     
     int pressed=0;
-    if(IsKeyPressed(KEY_W)){
-        pressed = 'W';
+    if(ColorToInt(p.color) == ColorToInt(RED)){
+        if(IsKeyPressed(KEY_W)){
+            pressed = 'W';
+
+        }
+        else if(IsKeyPressed(KEY_D)){
+            pressed = 'D';
+        }
+        else if(IsKeyPressed(KEY_A)){
+            pressed = 'A';
+        }
+        else if(IsKeyPressed(KEY_S)){
+            pressed = 'S';
+        }
     }
-    else if(IsKeyPressed(KEY_D)){
-        pressed = 'D';
+    else{
+        if(IsKeyPressed(KEY_I)){
+            pressed = 'I';
+        }
+        else if(IsKeyPressed(KEY_J)){
+            pressed = 'J';
+        }
+        else if(IsKeyPressed(KEY_K)){
+            pressed = 'K';
+        }
+        else if(IsKeyPressed(KEY_L)){
+            pressed = 'L';
+        }
     }
-    else if(IsKeyPressed(KEY_A)){
-        pressed = 'A';
-    }
-    else if(IsKeyPressed(KEY_S)){
-        pressed = 'S';
-    }
+
+
     if(pressed){
-        if(pressed == s[p.rock+1].reqkey){
+        if(p.rock < stonecount-1 && pressed == s[p.rock+1].reqkey){
             p.rock++;
         }
         else if(p.rock >0){
             p.rock--;
         }
     }
+    /*if(p.rock >= stonecount-1){
+        return;
+    }*/
+   /*
+    if(p.rock >stonecount -1){
+        p.rock = stonecount-1;
+    }*/
     
-    /*
-    if(p.rock != stonecount ){
-        if(IsKeyPressed(KEY_W)){
-                p.keypress = KEY_W;
-            }
-        if(IsKeyPressed(KEY_A)){
-                p.keypress = KEY_A;
-            }
-        if(IsKeyPressed(KEY_D)){
-                p.keypress = KEY_D;
-            }
-        if(IsKeyPressed(KEY_S)){
-                p.keypress = KEY_S;
-            }
-        if(p.keypress == s[(p.rock)+1].reqkey){
-                p.rock++;
-            }
-        if(KEY_A == s[(p.rock)+1].reqkey){
-                p.rock++;
-            }
-        if(KEY_S == s[(p.rock)+1].reqkey){
-                p.rock++;
-            }
-        if(KEY_D == s[(p.rock)+1].reqkey){
-                p.rock++;
-            }
+}
+void gamewin(player&p){
+    std::string player;
+    if(ColorToInt(p.color) == ColorToInt(RED)){
+        player = "1";
+    }
+    else player = "2";
+    if(p.won == true){
+        DrawRectangle(700,500,(screenw-700)/2,(screenh-500)/2,{80, 80, 80, 200});
+        DrawText(TextFormat("Player %s won", player),700,600,30,BLACK);
+    }
 
-
-        
-        if(IsKeyPressed(KEY_W)){
-                p.keypress = KEY_W;
-            }
-        if(IsKeyPressed(KEY_A)){
-                p.keypress = KEY_A;
-            }
-        if(IsKeyPressed(KEY_D)){
-                p.keypress = KEY_D;
-            }
-        if(IsKeyPressed(KEY_S)){
-                p.keypress = KEY_S;
-            }
-        
-        if(p.keypress == stone[p.rock+1].reqkey){ // remember that raylib keypresses are actually asci inputs
-            p.rock++;
-        }
-        else{
-            p.rock--;
-        }
-        */
-    
-    
 }

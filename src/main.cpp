@@ -51,14 +51,15 @@ int main(){
                 if(selected == 0){ // one player bro bro bro 
                     current = Screen::P1;
                     genstones(p1stones,100,1000);
-                  
+                    p1.rock = 0;
                 }
                 if(selected==1){ //SPLITSCREEN p2
                     current = Screen::P2;
                     
                     genstones(p1stones,100,500);
                     genstones(p2stones,750,1500);     
-                    
+                    p1.rock =0;
+                    p2.rock =0;   
                 }
                 if(selected ==2){
                     running=false;
@@ -137,22 +138,32 @@ int main(){
             
             ClearBackground(BLACK);
             BeginMode2D(cammain);
-            drawstones(p1stones);
+            drawstones(p1stones,p1);
             drawplayer(p1);
             EndMode2D();
             rockclimb(p1,p1stones);
             drawp1gp();
+            if(p1.rock == stonecount-1){
+                p1.won = true;
+            }
+            gamewin(p1);
+            
         }
         else if(current == Screen::P2){
             current = Screen::P2;
             displaysplitscreen();
-            
+            rockclimb(p1,p1stones);
+            rockclimb(p2,p2stones);
             drawp1gp();
             drawp2gp();
-
-           
-            
-            
+            if(p1.rock == stonecount-1){
+                p1.won = true;
+            }
+            if(p2.rock == stonecount-1){
+                p2.won = true;
+            }
+            gamewin(p1);
+            gamewin(p2);
         }
         EndDrawing();
     }
