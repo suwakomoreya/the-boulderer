@@ -61,7 +61,26 @@ void genstones(stones stone[], float left, float right){
 
 void drawstones(stones stone[]){
     for(int i=0;i<stonecount;i++){
+        
+        switch(stone[i].key){
+            case 0:
+                stone[i].reqkey = 'W';
+                break;
+            case 1:
+                stone[i].reqkey = 'D';
+                break;
+            case 2:
+                stone[i].reqkey = 'S';
+                break;
+            case 3:
+                stone[i].reqkey = 'A';
+                break;
+        }
+        
+        // std::string akey = std::to_string(stone[i].key);
         DrawCircleV(stone[i].pos,20,GRAY);
+        DrawText(TextFormat("%c", stone[i].reqkey),stone[i].pos.x - 5,stone[i].pos.y - 15,30,WHITE);
+
     }
 }
 stones p1stones[stonecount];
@@ -159,9 +178,18 @@ void displaysplitscreen(){
 }
 
 // gameclimb
+
 void rockclimb(player&p, stones s[]){
-    p.pos = {(s[p.rock].pos.x)-15,s[p.rock].pos.y-_PC_53sw};
-    if(IsKeyPressed(KEY_W)){
-        p.rock++;
+    p.pos = {(s[p.rock].pos.x)-25,s[p.rock].pos.y-25};
+    if(p.rock != stonecount){
+        if(p.keypress == stone[p.rock+1].reqkey){ // remember that raylib keypresses are actually asci inputs
+            p.rock++;
+        }
+        else{
+            p.rock--;
+        }
+    }
+    else{
+        p.rock =0;
     }
 }
