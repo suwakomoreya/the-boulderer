@@ -19,16 +19,6 @@ void loadbg() {
         levels[i] = LoadTexture(TextFormat("assets/level/bg%d.png",i));
         climblvl[i] = LoadTexture(TextFormat("assets/levelc/bg%d.png",i));
     }
-    DrawTexture(levels[0],0,0,WHITE);
-    int levelheight = 1000+clmetermax*1000;
-    for(int i=0; i<lvlcount; i++){
-        int bottom = -i * levelheight;
-        for(int b=0; b<clmetermax; b++){
-            DrawTexture(climblvl[i],0,bottom-(b+1)*1000,WHITE);
-        }
-        DrawTexture(levels[i],0,bottom,WHITE);
-    }
-    
 }
 void drawbg(){
     DrawTexture(levels[0],0,0,WHITE);
@@ -99,21 +89,21 @@ void drawstones(stones stone[], player& p){
 
     }
 }
-stones p1stones[stonecount];
-stones p2stones[stonecount];
+// stone arrays are defined in main.cpp
 // uistone generation (not actual interactable stones)
 
 //creating ui
-void drawp1gp(){
-    DrawText("Player 1",200,100,40,RED);
-    DrawText("Height",250,200,40,RED);
-
+void drawp1gp(const player& p){
+    DrawText("Player 1", 60, 40, 32, RED);
+    DrawText(TextFormat("Height: %d / %d", p.rock + 1, stonecount), 60, 80, 24, RAYWHITE);
 }
-void drawp2gp(){
-    drawp1gp();
-    DrawText("Player 2", screenw-400,100,40,BLUE);
-    DrawText("Height",screenw-350,200,40,BLUE);
-
+void drawp2gp(const player& p){
+    const char* label = "Player 2";
+    const char* height = TextFormat("Height: %d / %d", p.rock + 1, stonecount);
+    int labelW = MeasureText(label, 32);
+    int heightW = MeasureText(height, 24);
+    DrawText(label, screenw - 60 - labelW, 40, 32, BLUE);
+    DrawText(height, screenw - 60 - heightW, 80, 24, RAYWHITE);
 }
 //create player;
 player createplayer(float x,float y,Color color){
@@ -191,7 +181,7 @@ void displaysplitscreen(){
     Rectangle src = {0,0,(float)lefftex.texture.width, -(float)lefftex.texture.height};
     DrawTextureRec(lefftex.texture, src, {0,0},WHITE);
     DrawTextureRec(righttex.texture, src, {screenw/2.0f,0},WHITE);
-    DrawRectangle(screenw/2 -2,0,4,screenh,WHITE);
+    DrawRectangle(screenw/2 -1,0,2,screenh,Color{255,255,255,180});
 }
 
 // gameclimb
@@ -255,15 +245,21 @@ void rockclimb(player&p, stones s[]){
     }*/
     
 }
-void gamewin(player&p){
-    std::string player;
-    if(ColorToInt(p.color) == ColorToInt(RED)){
-        player = "1";
+void gamewin(player&p, bool splitscreenMode){
+    if(!p.won) return;
+    const char* label = (ColorToInt(p.color) == ColorToInt(RED)) ? "Player 1 wins" : "Player 2 wins";
+    const char* hint = "Esc to return to menu";
+    int w = 360;
+    int h = 110;
+    int x = (screenw - w) / 2;
+    int y = 430;
+    if(splitscreenMode){
+        x = (ColorToInt(p.color) == ColorToInt(RED)) ? (screenw/4 - w/2) : (screenw*3/4 - w/2);
     }
-    else player = "2";
-    if(p.won == true){
-        DrawRectangle(700,500,(screenw-700)/2,(screenh-500)/2,{80, 80, 80, 200});
-        DrawText(TextFormat("Player %s won", player),700,600,30,BLACK);
-    }
-
+    DrawRectangle(x, y, w, h, Color{20, 20, 20, 200});
+    DrawRectangleLines(x, y, w, h, Color{255,255,255,60});
+    int textW = MeasureText(label, 34);
+    int hintW = MeasureText(hint, 20);
+    DrawText(label, x + (w - textW)/2, y + 22, 34, RAYWHITE);
+    DrawText(hint, x + (w - hintW)/2, y + 66, 20, Color{220,220,220,255});
 }

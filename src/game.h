@@ -27,4 +27,3 @@ struct stones{
     int dropamt =2; // how far you be dropping
 };
 const int stonecount = 75;
-stones stone[stonecount];

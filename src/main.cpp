@@ -37,7 +37,6 @@ int main(){
     loadbg();
     splitscreen();
     while(running && !WindowShouldClose()){
-        drawbg();
         //update
         if(current == Screen::Menu){
             if(IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)){
@@ -48,18 +47,17 @@ int main(){
                 selected = (selected-1+count)% count;
             }
             if(IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER)){
-                if(selected == 0){ // one player bro bro bro 
+                if(selected == 0){ // one player
                     current = Screen::P1;
                     genstones(p1stones,100,1000);
-                    p1.rock = 0;
+                    p1 = createplayer(750,900,RED);
                 }
-                if(selected==1){ //SPLITSCREEN p2
+                if(selected==1){ // split screen
                     current = Screen::P2;
-                    
                     genstones(p1stones,100,500);
-                    genstones(p2stones,750,1500);     
-                    p1.rock =0;
-                    p2.rock =0;   
+                    genstones(p2stones,750,1500);
+                    p1 = createplayer(250,900,RED);
+                    p2 = createplayer(1000,900,BLUE);
                 }
                 if(selected ==2){
                     running=false;
@@ -116,54 +114,50 @@ int main(){
         ClearBackground(BLACK);
         //select choice
         if(current == Screen::Menu){
-            DrawText("The Boulderer", 250, 100, 80,WHITE);
+            drawbg();
+            DrawRectangle(300, 70, 900, 420, Color{0, 0, 0, 110});
+            const char* title = "The Boulderer";
+            int titleW = MeasureText(title, 72);
+            DrawText(title, (screenw - titleW)/2, 120, 72, RAYWHITE);
             for(int i =0;i<count;i++){
-                Color c =(i ==selected) ?YELLOW : GRAY;
-                DrawText(items[i],350,250+i*70,50,c);
+                Color c =(i ==selected) ? RAYWHITE : Color{200,200,200,255};
+                int itemW = MeasureText(items[i], 42);
+                int x = (screenw - itemW)/2;
+                int y = 260 + i*70;
                 if(i==selected){
-                    DrawText(">",320,250 +i *70,50, YELLOW);
+                    DrawText(">", x - 36, y, 42, RAYWHITE);
                 }
-
+                DrawText(items[i], x, y, 42, c);
             }
-
         }  
         else if(current == Screen::P1){
-            current = Screen::P1;
-            
-
-            
-            //cammain.zoom = 1.0f;
             followplayer(cammain,p1,screenw/2.0f);
-            //cammain.offset = {screenw/2.0f,screenh/2.0f};
-            
-            ClearBackground(BLACK);
             BeginMode2D(cammain);
+            drawbg();
             drawstones(p1stones,p1);
             drawplayer(p1);
             EndMode2D();
             rockclimb(p1,p1stones);
-            drawp1gp();
+            drawp1gp(p1);
             if(p1.rock == stonecount-1){
                 p1.won = true;
             }
-            gamewin(p1);
-            
+            gamewin(p1,false);
         }
         else if(current == Screen::P2){
-            current = Screen::P2;
             displaysplitscreen();
             rockclimb(p1,p1stones);
             rockclimb(p2,p2stones);
-            drawp1gp();
-            drawp2gp();
+            drawp1gp(p1);
+            drawp2gp(p2);
             if(p1.rock == stonecount-1){
                 p1.won = true;
             }
             if(p2.rock == stonecount-1){
                 p2.won = true;
             }
-            gamewin(p1);
-            gamewin(p2);
+            gamewin(p1,true);
+            gamewin(p2,true);
         }
         EndDrawing();
     }
