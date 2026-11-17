@@ -26,4 +26,4 @@ struct stones{
     char reqkey; // required key displayed
     int dropamt =2; // how far you be dropping
 };
-const int stonecount = 75;
+const int stonecount = 70;
