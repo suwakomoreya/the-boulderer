@@ -30,3 +30,7 @@ then compile with
         -lopengl32 -lgdi32 -lwinmm -static-libgcc -static-libstdc++
 
 in the same terminal run ./game.exe or just open your newly created exe from the project folder
+
+if theres any bugs lowkey let me know i actually do like the game idea a little bit and i actually wanna dev it a bit morre when i have time. 
+thannkkkkss (my friend told me i should list how it correlates to theme also, so i was hoping that "split" would kinda follow the background where the mountain is split in half) ( and dcause theres splitscreen)
+#sad that i ddi this on week 4 and not week 5
